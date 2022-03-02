@@ -1,0 +1,15 @@
+on:
+  workflow_dispatch:
+jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        thing: [ 'string',2, { key: 'value' } ]
+    steps:
+    - run: |
+        # ${{ matrix.thing }}
+        echo ${{ matrix.thing }}
+    - run: |
+        # ${{ toJSON(matrix.thing) }}
+        echo ${{ toJSON(matrix.thing) }}

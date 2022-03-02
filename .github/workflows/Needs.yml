@@ -1,0 +1,15 @@
+on:
+  workflow_dispatch:
+env:
+  RUN: "This will run"
+  AFTER: after
+jobs:
+  first: # This will run first
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo $RUN first
+  second: # This will run after first
+    needs: [first]
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo $RUN $AFTER first

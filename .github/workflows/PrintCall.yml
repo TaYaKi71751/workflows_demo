@@ -1,0 +1,20 @@
+on:
+  workflow_call:
+    inputs:
+      text:
+        type: string
+  workflow_dispatch:
+    inputs:
+      text:
+        type: string
+        default: 'text'
+jobs:
+  echo-call: # This will run first
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo ${{ github.event.inputs.text || inputs.text }}
+  printf-call: 
+    needs: [echo-call] # This will run after echo-call
+    runs-on: ubuntu-latest
+    steps:
+    - run: printf "${{ github.event.inputs.text || inputs.text }}"

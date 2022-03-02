@@ -1,0 +1,33 @@
+on:
+  workflow_dispatch:
+env:
+  WILL: This will be
+  NOT: not
+  RUN: run
+  WHEN: when
+  ALWAYS: always
+  FAILURE: failure occurred
+  AFTER: after
+  CANCEL: cancel
+jobs:
+  always:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps: 
+    - run: echo $WILL $RUN $ALWAYS
+  error:
+    needs: [always]
+    runs-on: ubuntu-latest
+    steps:
+    - run: printf # This will occur failure() => printf: not enough arguments
+  needs-error:
+    needs: [error]
+    runs-on: ubuntu-latest
+    steps: 
+    - run: echo $WILL $CANCEL
+  failure:
+    needs: [error]
+    if: ${{ failure() || cancelled() }}
+    runs-on: ubuntu-latest
+    steps: 
+    - run: echo $WILL $RUN $WHEN $FAILURE
